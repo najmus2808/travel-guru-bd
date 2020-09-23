@@ -1,0 +1,26 @@
+.home-container {
+    margin-top: 100px;
+    
+}
+.img-style{
+    width: 200px;
+    height: 300px;
+   
+    margin-right: 20px;
+    transition: all 1s  ease-in-out;
+
+}
+
+.info{
+    color: white;
+    position: relative;
+    padding-left: 12px;
+    bottom: 32px;
+    font-size: 18px;
+}
+
+.img-style:hover{
+    border: 5px solid orange;
+    border-radius: 18px;
+    cursor: pointer;
+}
