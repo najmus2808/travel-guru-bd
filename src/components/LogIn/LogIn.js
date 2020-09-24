@@ -1,271 +1,269 @@
-import React, { useState } from "react";
-import './Login.css'
+import React, { useContext, useState } from "react";
+import LoginWithOthers from "../LoginWithOthers/LoginWithOthers";
+import "./Login.css";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 import * as firebase from "firebase/app";
-import Logo from '../../fakeData/images/Logo.png'
 import "firebase/auth";
-import firebaseConfig from '../../firebase.config';
-import { Button, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import firebaseConfig from "../../firebase.config";
+import { UserContext } from "../../App";
+import { useHistory, useLocation } from "react-router-dom";
 
+const Login = () => {
+	const [newUser, setNewUser] = useState(false);
+	const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+	// const [signOutUser, setSignOutUser] = useContext(UserContext);
 
+	const [currentUser, setCurrentUser] = useState({
+		isSignedIn: false,
+		email: "",
+		password: "",
+		error: "",
+		success: false,
+	});
 
-const LogIn = () => {
+	const history = useHistory();
+	const location = useLocation();
+	const { from } = location.state || { from: { pathname: "/" } };
 
-    const [newUser, setNewUser] = useState(false);
-    const [user, setUser] = useState({
-      isSignedIn: false,
-      name: "",
-      email: "",
-      password: ""
-    });
-  
-    // const handleSignIn = () => {
-    //   firebase
-    //     .auth()
-    //     .signInWithPopup(provider)
-    //     .then((res) => {
-    //       const { displayName, email, photoURL } = res.user;
-    //       const signedInUser = {
-    //         isSignedIn: true,
-    //         name: displayName,
-    //         email: email,
-    //         photo: photoURL,
-    //       };
-  
-    //       setUser(signedInUser);
-    //     })
-  
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-  
-    
-  
-    // const handleSignOut = () => {
-    //   firebase
-    //     .auth()
-    //     .signOut()
-    //     .then((res) => {
-    //       const signedOutUser = {
-    //         isSignedIn: false,
-    //         name: "",
-    //         email: "",
-    //         photo: "",
-    //         error: "",
-    //         success: false,
-    //       };
-  
-    //       setUser(signedOutUser);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-  
-    const handleBlur = (e) => {
-      let isFieldValid = true;
-      if (e.target.name === "email") {
-        isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
-      }
-  
-      if (e.target.name === "password") {
-        const isPasswordValid = e.target.value.length > 6;
-        const passwordHasNumber = /\d{1}/.test(e.target.value);
-        isFieldValid = isPasswordValid && passwordHasNumber;
-      }
-      if (isFieldValid) {
-        const newUserInfo = { ...user };
-        newUserInfo[e.target.name] = e.target.value;
-        setUser(newUserInfo);
-      }
-    };
-  
-    const handleSubmit = (e) => {
-      if (newUser && user.email && user.password) {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(user.email, user.password)
-          .then((res) => {
-            const newUserInfo = { ...user };
-            newUserInfo.error = "";
-            newUserInfo.success = true;
-            setUser(newUserInfo);
-            updateUserName(user.name);
-            console.log("sign in user info", res.user);
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            const newUserInfo = { ...user };
-            newUserInfo.error = error.message;
-            newUserInfo.success = false;
-            setUser(newUserInfo);
-  
-            // ...
-          });
-      }
-      if (!newUser && user.email && user.password) {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(user.email, user.password)
-          .then((res) => {
-            const newUserInfo = { ...user };
-            newUserInfo.error = "";
-            newUserInfo.success = true;
-            setUser(newUserInfo);
-          })
-          .catch(function (error) {
-            // Handle Errors here.
-            const newUserInfo = { ...user };
-            newUserInfo.error = error.message;
-            newUserInfo.success = false;
-            setUser(newUserInfo);
-            // ...
-          });
-      }
-      e.preventDefault();
-    };
-  
-    const updateUserName = (name) => {
-      const user = firebase.auth().currentUser;
-  
-      user
-        .updateProfile({
-          displayName: name,
-        })
-        .then(function () {
-          console.log("user name updated successfully");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
-  
-  
+	const handleFormToggle = () => {
+		setNewUser(!newUser);
+	};
 
+	// Initialize Firebase
+	if (!firebase.apps.length) {
+		firebase.initializeApp(firebaseConfig);
+	}
+	/* GOOGLE Sign in */
+	const handleGoogleSignIn = () => {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then(function(result) {
+				const { displayName, email } = result.user;
+				const newUser = {
+					isSignedIn: true,
+					email: email,
+					name: displayName,
+				};
+				setCurrentUser(newUser);
 
+				setLoggedInUser(newUser);
+				history.replace(from);
+				console.log(newUser);
+			})
+			.catch(function(error) {
+				const newUser = { ...currentUser };
+				newUser.error = error.message;
+				newUser.success = false;
+				setLoggedInUser(newUser);
+				console.log(error);
+			});
+	};
 
+	/* FACEBOOK Sign in */
+	const handleFacebookSignIn = () => {
+		const provider = new firebase.auth.FacebookAuthProvider();
+		firebase
+			.auth()
+			.signInWithPopup(provider)
+			.then(function(result) {
+				const { displayName, email } = result.user;
+				const newUser = {
+					isSignedIn: true,
+					email: email,
+					name: displayName,
+				};
+				setCurrentUser(newUser);
 
+				setLoggedInUser(newUser);
+				history.replace(from);
+				console.log(newUser);
+			})
+			.catch(function(error) {
+				const newUser = { ...currentUser };
+				newUser.error = error.message;
+				newUser.success = false;
+				setLoggedInUser(newUser);
+				console.log(error);
+			});
+	};
 
-    // =======================
+	/* Form validation and give error */
+	const [errors, setErrors] = useState({
+		name: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+	});
+	let pass1, pass2;
+	const handleFormValidation = (e) => {
+		let isFieldValid = true;
+		const newError = { ...errors };
 
-    if(!firebase.apps.length){
-        firebase.initializeApp(firebaseConfig);
-    }
+		if (e.target.name === "name") {
+			isFieldValid = e.target.value.length > 2;
+			if (!isFieldValid) {
+				newError[e.target.name] = "Name is not valid";
+				setErrors(newError);
+			} else {
+				newError[e.target.name] = "";
+				setErrors(newError);
+			}
+		}
 
-    
-    const handleGoogleSignIn = () => {
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(googleProvider)
-        .then(res => {
-            var user = res.user;
-            console.log(user);
-            
-          })
-          .catch(error => { 
-           console.log(error);
-           
-          });
+		if (e.target.name === "email") {
+			isFieldValid = /\S+@\S+/.test(e.target.value);
+			if (!isFieldValid) {
+				newError[e.target.name] = "Email is not valid";
+				setErrors(newError);
+			} else {
+				newError[e.target.name] = "";
+				setErrors(newError);
+			}
+		}
 
-    }
+		if (e.target.name === "password" || e.target.name === "confirmPassword") {
+			const isPasswordLengthValid = e.target.value.length > 5;
+			const passwordHasNumber = /\d{1}/.test(e.target.value);
 
-    const handleFacebookSignIn = () => {
-        var fbProvider = new firebase.auth.FacebookAuthProvider();
+			isFieldValid = isPasswordLengthValid && passwordHasNumber;
 
-        firebase.auth().signInWithPopup(fbProvider).then(function(result) {
-            
-            var user = result.user;
-            console.log(user);
-            
-          }).catch(function(error) {
-            
-            console.log(error);
-          });
-    }
+			if (e.target.name === "password") {
+				pass1 = e.target.value;
+				if (!isFieldValid) {
+					newError[e.target.name] = "Password is not valid";
+					setErrors(newError);
+				} else {
+					newError[e.target.name] = "";
+					setErrors(newError);
+				}
+			}
+			if (e.target.name === "confirmPassword") {
+				pass2 = e.target.value;
+				if (!isFieldValid && pass1 !== pass2) {
+					newError[e.target.name] = "Password is not matched";
+					setErrors(newError);
+				} else {
+					newError[e.target.name] = "";
+					setErrors(newError);
+				}
+			}
+		}
 
-    return (
-        <div>
-            <div>
-            <Navbar variant="light" expand="lg">
-                <Navbar.Brand href="/home" className="ml-lg-5 mr-auto ">
-                    <img className="ml-5" src={Logo} alt="" height="35px"/>
-                </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto mr-5">
-                        <Nav.Link href="/home" className="mr-4">
-                            Home
-                        </Nav.Link>
-                        <NavDropdown title="Destination" id="basic-nav-dropdown" className="mr-4">
-                            <NavDropdown.Item href="/action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="/action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/action/3.3">Something</NavDropdown.Item>
-                        </NavDropdown>
-                        <Nav.Link href="/blog" className="mr-4">
-                            Blog
-                        </Nav.Link>
-                        <Nav.Link href="/contact" className="mr-4">
-                            Contact
-                        </Nav.Link>
-                        <Button href="/login" variant="warning" className="mr-5">
-                            Login
-                        </Button>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-        </div>
+		if (isFieldValid) {
+			const newUser = { ...currentUser };
+			newUser[e.target.name] = e.target.value;
+			setCurrentUser(newUser);
+			// console.log("is valid -> ", isFieldValid, currentUser);
+		}
+	};
 
-        { newUser ?
-            <div className="hero">
-            <div className="form-box">
-            <h5 className="mt-3 ml-4">Create an account</h5>
-            <form onSubmit={handleSubmit} className="input-group justify-content-center mt-3">
-                <input type="text" name="firstName" id="" onBlur={handleBlur} className="input-field" placeholder="First Name" required/>
-                <input type="text" name="lastName" id="" onBlur={handleBlur} className="input-field" placeholder="Last Name" required/>
-                <input type="text" name="email" id="" onBlur={handleBlur} className="input-field" placeholder="Username or Email" required/>
-                <input type="password" name="password" id="" onBlur={handleBlur} className="input-field" placeholder="Password" required/>
-                <input type="password" name="confirmPassword" id="" onBlur={handleBlur} className="input-field" placeholder="Confirm Password" required/>
-                <input type="submit" value="Create an account" className="submit-btn mt-3"/>
-            </form>
-            <div className="d-flex  justify-content-center mt-2">
-                <p><small>Already have an account?</small></p>
-                <button className="ml-1"  onClick={() => setNewUser(!newUser)}>Login</button>
-            </div>
-            </div>
-            </div>
+	/* CREATE NEW USER */
+	const handleCreateNewUser = (e) => {
+		e.preventDefault();
+		if (!currentUser.email && !currentUser.password) {
+			const newError = { ...errors };
+			newError.name = "Please use valid name!";
+			newError.email = "Please use valid email!";
+			newError.password = "Please use valid password!";
+			newError.confirmPassword = "Please is not matched!";
+			setErrors(newError);
+		} else {
+			firebase
+				.auth()
+				.createUserWithEmailAndPassword(currentUser.email, currentUser.password)
+				.then((result) => {
+					const { displayName, email } = result.user;
+					const newUser = {
+						email: email,
+						name: displayName,
+						success: true,
+						error: "",
+					};
+					setCurrentUser(newUser);
 
-            :
+					setLoggedInUser(newUser);
+					console.log(result.user);
+				})
+				.catch((error) => {
+					const newUser = { ...currentUser };
+					newUser.error = error.message;
+					newUser.success = false;
+					setLoggedInUser(newUser);
+					console.log(error.message);
+				});
+		}
+	};
 
-            <div className="hero">
-            <div className="form-box1">
-            <h5 className="mt-3 ml-4">Login</h5>
-            <form action="" className="input-group justify-content-center mt-3">
-                <input type="text" name="" id="" className="input-field" placeholder="Username or Email"/>
-                <input type="password" name="" id="" className="input-field" placeholder="Password"/>
-                <input type="submit" value="Login" className="submit-btn mt-3"/>
-            </form>
-            <div className="d-flex  justify-content-center mt-2">
-                <p><small>Don't have an account?</small></p>
-                <button className="ml-1" onClick={() => setNewUser(!newUser)}>Create an account</button>
-            </div>
-            </div>
+	/* SIGN IN with email and password */
+	const handleSignIn = (e) => {
+		e.preventDefault();
+		if (!currentUser.email && !currentUser.password) {
+			const newError = { ...errors };
+			newError.email = "Please use valid email!";
+			newError.password = "Please use valid password!";
+			setErrors(newError);
+		} else {
+			firebase
+				.auth()
+				.signInWithEmailAndPassword(currentUser.email, currentUser.password)
+				.then((result) => {
+					const { displayName, email } = result.user;
+					const newUser = {
+						isSignedIn: true,
+						email: email,
+						name: displayName,
+						success: true,
+						error: "",
+					};
+					setCurrentUser(newUser);
 
-              
-            </div>
+					setLoggedInUser(newUser);
+					history.replace(from);
+				})
+				.catch((error) => {
+					const newUser = { ...currentUser };
+					newUser.error = error.message;
+					newUser.success = false;
+					setLoggedInUser(newUser);
+				});
+		}
+	};
 
-
-        }
-
-            <div className="footer">
-                <hr/>
-                <p className="or">OR</p>
-                <button onClick={handleFacebookSignIn} className="login-btn mt-4">Continue with Facebook</button>
-                <button onClick={handleGoogleSignIn} className="login-btn mt-2">Continue with Google</button>
-                </div>
-      
-    </div>
-    );
+	return (
+		<section className="tg-signup-login text-center">
+			<div className="container">
+				{currentUser.success && (
+					<div className="alert alert-success" role="alert">
+						User {!newUser ? "logged in" : "registered"} successfully
+					</div>
+				)}
+				{loggedInUser.error && (
+					<div className="alert alert-danger" role="alert">
+						{loggedInUser.error}
+					</div>
+				)}
+				{newUser ? (
+					<SignUpForm
+						toggleUser={handleFormToggle}
+						validation={handleFormValidation}
+						submit={handleCreateNewUser}
+						errors={errors}
+					></SignUpForm>
+				) : (
+					<LoginForm
+						toggleUser={handleFormToggle}
+						validation={handleFormValidation}
+						submit={handleSignIn}
+						errors={errors}
+					></LoginForm>
+				)}
+				<LoginWithOthers google={handleGoogleSignIn} facebook={handleFacebookSignIn}></LoginWithOthers>
+			</div>
+		</section>
+	);
 };
 
-export default LogIn;
+export default Login;

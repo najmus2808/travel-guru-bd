@@ -1,51 +1,44 @@
-import React from 'react';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React, { createContext, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import Home from "./components/Home/Home";
+import Header from "./components/Header/Header";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./components/Login/Login";
+import Booking from "./components/Booking/Booking";
+import NotFound from "./components/NotFound/NotFound";
+import Destination from "./components/Destination/Destination";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-import Header from './components/Header/Header';
-import Home from './components/Home/Home';
-import LogIn from './components/LogIn/LogIn';
-import Blog from './components/Blog/Blog';
-import Contact from './components/Contact/Contact';
-import SignUp from './components/SignUp/SignUp';
-import Booking from './components/Booking/Booking';
-
-
-
+export const UserContext = createContext();
 
 function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/home">
-        <Header/>
-        </Route>
-        <Route path="/login">
-          <LogIn/>
-        </Route>
-        <Route path="/blog">
-          <Blog />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        <Route path="/signup">
-          <SignUp />
-        </Route>
-        <Route path="/booking">
-          <Booking />
-        </Route>
-        <Route exact path="/">
-        <Header/>
-        </Route>
-      </Switch>
-  </Router>
-  );
+	const [loggedInUser, setLoggedInUser] = useState({});
+	const [signOutUser, setSignOutUser] = useState({});
+	return (
+		<UserContext.Provider value={([loggedInUser, setLoggedInUser], [signOutUser, setSignOutUser])}>
+			<Router>
+				<Header/>
+				<Switch>
+					<Route exact path="/">
+						<Home/>
+					</Route>
+					<Route path="/user">
+						<Login/>
+					</Route>
+					<Route path="/booking/:id">
+						<Booking/>
+					</Route>
+					<PrivateRoute path="/destination">
+						<Destination/>
+					</PrivateRoute>
+					<Route path="*">
+						<NotFound/>
+					</Route>
+				</Switch>
+			</Router>
+		</UserContext.Provider>
+	);
 }
 
 export default App;

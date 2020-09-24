@@ -1,19 +1,10 @@
-.background{
-    background-image:linear-gradient(rgba(0, 0, 0, 0.753), rgba(0, 0, 0, 0.575)), url(../../fakeData/images/Rectangle\ 1.png);
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    height: 100vh;
+.nav-link {
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 20px;
 }
 
-.Search{
-    width: 300px!important;
-    height: 40px!important;
-    
-    background-color: rgb(255, 255, 255, 0.2)!important;
-    border: 1px solid #FFFFFF!important;
-    box-sizing: border-box!important;
-    border-radius: 5px!important;
-    padding: 10px!important;
-    color: white!important;
+.user-icon {
+	margin-left: 20px;
 }
