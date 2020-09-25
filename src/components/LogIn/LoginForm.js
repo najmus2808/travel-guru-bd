@@ -5,7 +5,7 @@ const LoginForm = (props) => {
 	const { toggleUser, validation, submit, errors } = props;
 
 	return (
-		<div className="tg-form login">
+		<div className="bg-form login">
 			<h3>Login</h3>
 
 			<form onSubmit={submit}>
@@ -37,7 +37,7 @@ const LoginForm = (props) => {
 					</Link>
 				</div>
 
-				<button type="submit" className="btn btn-warning tg-primary btn-block">
+				<button type="submit" className="btn btn-warning bg-warning btn-block">
 					Login
 				</button>
 			</form>

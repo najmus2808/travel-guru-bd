@@ -15,17 +15,17 @@ const Booking = () => {
 	const { title, longDesc } = bookingData;
 
 	return (
-		<main className="tg-hero d-flex align-items-center">
+		<main className="bg-hero d-flex align-items-center">
 			<div className="container">
 				<div className="row align-items-center">
 					<div className="col-lg-6">
-						<div className="tg-hero-cta mb-md-0 mb-5">
+						<div className="bg-hero-cta mb-md-0 mb-5">
 							<h1>{title}</h1>
 							<p>{longDesc}</p>
 						</div>
 					</div>
 					<div className="col-lg-6">
-						<div className="tg-booking-form">
+						<div className="bg-booking-form">
 							<div className="">
 								<div className="form-group">
 									<label>Origin</label>
@@ -48,7 +48,7 @@ const Booking = () => {
 								<button
 									onClick={handleLoginRoute}
 									type="submit"
-									className="btn btn-warning tg-primary btn-block"
+									className="btn btn-warning bg-primary btn-block"
 								>
 									Start Booking
 								</button>

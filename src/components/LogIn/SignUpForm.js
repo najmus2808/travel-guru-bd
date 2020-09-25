@@ -6,7 +6,7 @@ const SignUpForm = (props) => {
 	console.log(errors);
 
 	return (
-		<div className="tg-form login signup">
+		<div className="bg-form login signup">
 			<h3>Create an account</h3>
 
 			<form onSubmit={submit}>
@@ -48,7 +48,7 @@ const SignUpForm = (props) => {
 					{errors.confirmPassword.length > 0 && <p className="error-msg">{errors.confirmPassword}</p>}
 				</div>
 
-				<button type="submit" className="btn btn-warning tg-primary btn-block">
+				<button type="submit" className="btn btn-warning bg-warning btn-block">
 					Create an account
 				</button>
 			</form>

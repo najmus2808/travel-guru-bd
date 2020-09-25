@@ -233,7 +233,7 @@ const Login = () => {
 	};
 
 	return (
-		<section className="tg-signup-login text-center">
+		<section className="bg-signup-login text-center">
 			<div className="container">
 				{currentUser.success && (
 					<div className="alert alert-success" role="alert">

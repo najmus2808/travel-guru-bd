@@ -1,8 +1,8 @@
-.tg-signup-login {
+.bg-signup-login {
 	padding: 100px 0;
 }
 
-.tg-signup-login .tg-form {
+.bg-signup-login .bg-form {
 	max-width: 570px;
 	margin: 0 auto;
 	background: rgba(255, 255, 255, 0.2);
@@ -11,10 +11,10 @@
 	padding: 40px 50px;
 }
 
-.tg-thirdparty-login {
+.bg-thirdparty-login {
 	text-align: center;
 }
-.tg-thirdparty-login .btn {
+.bg-thirdparty-login .btn {
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 20px;
@@ -25,7 +25,7 @@
 	border-radius: 57px;
 }
 
-.tg-thirdparty-login .btn {
+.bg-thirdparty-login .btn {
 	width: 461px;
 	margin: 0 auto;
 	height: 51px;
@@ -39,7 +39,7 @@
 	margin-top: 20px;
 }
 
-.tg-thirdparty-login .btn > span:first-child {
+.bg-thirdparty-login .btn > span:first-child {
 }
 
 .form-divider {
@@ -72,7 +72,7 @@
 	right: 0;
 }
 
-.tg-form .form-control {
+.bg-form .form-control {
 	font-style: normal;
 	font-weight: 500;
 	font-size: 16px;
@@ -85,39 +85,39 @@
 	height: 45px;
 }
 
-.tg-form .form-group {
+.bg-form .form-group {
 	margin-bottom: 34px;
 }
 
-.tg-form .form-group.forgot-pass {
+.bg-form .form-group.forgot-pass {
 	display: flex;
 	justify-content: space-between;
 }
 
-.tg-form .form-group a,
-.tg-form a {
+.bg-form .form-group a,
+.bg-form a {
 	color: var(--primary);
 	text-decoration: underline;
 }
 
-.tg-form .btn-logintoggle {
+.bg-form .btn-logintoggle {
 	font-weight: normal;
 	color: var(--primary);
 	text-decoration: underline;
 	padding: 0;
 }
 
-.tg-form .btn-logintoggle:hover {
+.bg-form .btn-logintoggle:hover {
 	color: var(--primary);
 	text-decoration: underline;
 }
 
-.tg-form .register-login {
+.bg-form .register-login {
 	text-align: center;
 	margin-top: 20px;
 }
 
-.tg-form h3 {
+.bg-form h3 {
 	font-family: "Montserrat", sans-serif;
 	font-style: normal;
 	font-weight: bold;
@@ -126,7 +126,7 @@
 	margin-bottom: 30px;
 }
 
-.tg-signup-login .alert {
+.bg-signup-login .alert {
 	max-width: 570px;
 	margin-bottom: 30px;
 	display: inline-block;

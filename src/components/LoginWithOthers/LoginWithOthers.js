@@ -7,7 +7,7 @@ const LoginWithOthers = (props) => {
 				<p>Or</p>
 			</div>
 
-			<div className="tg-thirdparty-login">
+			<div className="bg-thirdparty-login">
 				<button className="btn btn-secondary" onClick={props.facebook}>
 					<span>
 						<img src={require("../../images/icon/fb.png")} style={{ maxWidth: "35px" }} alt="fb logo" />

@@ -14,14 +14,14 @@ const Header = () => {
 	// const [signOutUser, setSignOutUser] = useContext(UserContext);
 
 	return (
-		<Navbar bg="" expand="md">
+		<Navbar bg="light" expand="md">
 			<div className="container-lg">
 				<Link to="/" className="navbar-brand mr-md-5 mr-0">
 					<div className="logo">
 						<img src={logo} style={{ maxWidth: "120px" }} alt="logo dark" />
 					</div>
 				</Link>
-				<div className="tg-search">
+				<div className="bg-search">
 					<FormControl type="search" placeholder="Search" className="mr-sm-2" />
 				</div>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -38,9 +38,9 @@ const Header = () => {
 						</Link>
 
 						{loggedInUser.isSignedIn ? (
-							<Button className="btn btn-warning tg-primary">Sign out</Button>
+							<Button className="btn btn-warning bg-warning">Sign out</Button>
 						) : (
-							<Button className="btn btn-warning tg-primary" onClick={handleLoginRoute}>
+							<Button className="btn btn-warning bg-warning" onClick={handleLoginRoute}>
 								Login
 							</Button>
 						)}
