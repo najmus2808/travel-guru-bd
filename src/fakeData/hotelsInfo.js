@@ -16,11 +16,10 @@ export const hotelsInfo = [
 	{
 		id:2,
 		title: "Apartment in Lost Panorama",
-			guest: 4,
-			rooms: 2,
-			beds: 2,
-			bathrooms: 2,
-		
+		guest: 4,
+	    rooms: 2,
+		beds: 2,
+		bathrooms: 2,
 		features: ["Wif Air conditioning Kitchen", "Cancellation fexibility availiable"],
 		ratings: 4.5,
 		totalRating: 15,
