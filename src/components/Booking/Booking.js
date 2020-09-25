@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import fakeData from "../../fakeData";
 import "../Home/Home.css";
 
@@ -45,6 +45,7 @@ const Booking = () => {
 										<input className="form-control" type="date" id="dateTo" />
 									</div>
 								</div>
+								
 								<button
 									onClick={handleLoginRoute}
 									type="submit"
@@ -52,6 +53,7 @@ const Booking = () => {
 								>
 									Start Booking
 								</button>
+								
 							</div>
 						</div>
 					</div>

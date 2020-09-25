@@ -9,6 +9,7 @@ import Booking from "./components/Booking/Booking";
 import NotFound from "./components/NotFound/NotFound";
 import Destination from "./components/Destination/Destination";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import HotelCard from "./components/HotelCard/HotelCard";
 
 export const UserContext = createContext();
 
@@ -30,7 +31,7 @@ function App() {
 						<Booking/>
 					</Route>
 					<PrivateRoute path="/destination">
-						<Destination/>
+						<HotelCard/>
 					</PrivateRoute>
 					<Route path="*">
 						<NotFound/>

@@ -23,18 +23,18 @@ const Login = () => {
 	});
 
 	const history = useHistory();
-	const location = useLocation();
-	const { from } = location.state || { from: { pathname: "/" } };
+	const location = useLocation().location?.pathname;
+	// const { from } = location.state || { from: { pathname: "/" } };
 
 	const handleFormToggle = () => {
 		setNewUser(!newUser);
 	};
 
-	// Initialize Firebase
+	// initialize firebase
 	if (!firebase.apps.length) {
 		firebase.initializeApp(firebaseConfig);
 	}
-	/* GOOGLE Sign in */
+	/* google sign in */
 	const handleGoogleSignIn = () => {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		firebase
@@ -50,7 +50,7 @@ const Login = () => {
 				setCurrentUser(newUser);
 
 				setLoggedInUser(newUser);
-				history.replace(from);
+				history.replace(location || "/");
 				console.log(newUser);
 			})
 			.catch(function(error) {
@@ -62,7 +62,7 @@ const Login = () => {
 			});
 	};
 
-	/* FACEBOOK Sign in */
+	/* facebook  sign in */
 	const handleFacebookSignIn = () => {
 		const provider = new firebase.auth.FacebookAuthProvider();
 		firebase
@@ -78,7 +78,7 @@ const Login = () => {
 				setCurrentUser(newUser);
 
 				setLoggedInUser(newUser);
-				history.replace(from);
+				history.replace(location || "/");
 				console.log(newUser);
 			})
 			.catch(function(error) {
@@ -90,7 +90,7 @@ const Login = () => {
 			});
 	};
 
-	/* Form validation and give error */
+	/* form validation and give error */
 	const [errors, setErrors] = useState({
 		name: "",
 		email: "",
@@ -156,11 +156,10 @@ const Login = () => {
 			const newUser = { ...currentUser };
 			newUser[e.target.name] = e.target.value;
 			setCurrentUser(newUser);
-			// console.log("is valid -> ", isFieldValid, currentUser);
 		}
 	};
 
-	/* CREATE NEW USER */
+	/* create new user */
 	const handleCreateNewUser = (e) => {
 		e.preventDefault();
 		if (!currentUser.email && !currentUser.password) {
@@ -197,7 +196,7 @@ const Login = () => {
 		}
 	};
 
-	/* SIGN IN with email and password */
+	/* sign in with email and password */
 	const handleSignIn = (e) => {
 		e.preventDefault();
 		if (!currentUser.email && !currentUser.password) {
@@ -205,6 +204,7 @@ const Login = () => {
 			newError.email = "Please use valid email!";
 			newError.password = "Please use valid password!";
 			setErrors(newError);
+			history.replace(location || "/");
 		} else {
 			firebase
 				.auth()
@@ -221,7 +221,7 @@ const Login = () => {
 					setCurrentUser(newUser);
 
 					setLoggedInUser(newUser);
-					history.replace(from);
+					history.replace(location || "/");
 				})
 				.catch((error) => {
 					const newUser = { ...currentUser };
